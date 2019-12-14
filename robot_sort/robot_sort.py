@@ -93,11 +93,40 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Fill this out
-        pass
+        # to begin, the robot's light is turned on and he picks up the first item in the list
+        self.set_light_on()
+        self.swap_item()
+        ###################
+
+        # this while loop runs until the robot's light is turned off. the robot's light being turned off indicates the list is properly sorted.
+        while self.light_is_on():
+        #########################
+            
+            # while the robot is able to move right, it moves right and compares what it's holding to the item in the list. if what he's holding is bigger than the item, he swaps. At the end, he'll be holding the smallest item in the list
+            while self.can_move_right(): 
+                self.move_right()
+
+                if self.compare_item() == 1:
+                    self.swap_item()
+            #################################
+
+            # now that the robot is at the end of the list and is holding the smallest item, he moves left until he reaches the 'None' item in the list
+            while self.compare_item() != None:
+                self.move_left()
+            ##################################
+
+            # now that the robot is back to the None item, he swaps what's in his hand. now the robot has nothing in his hand, and the smallest item is at the first position in the list.
+            self.swap_item()
+            ################
+
+            # here is the condition that restarts or breaks the while loop. on the first run through of this loop, the robot places the smallest item in the list in the first position. now he has nothing in his hand and can move right, so he moves right and swaps item 2 for None. the while loop restarts, and he finds the smallest item from item 2 to the end of the list. he repeats the process for all the items until he reaches the end of the list and can no longer move right. once he does, the list is sorted and he turns his light off, which breaks the loop
+            if self.can_move_right() and self.compare_item() == None:
+                self.move_right()
+                self.swap_item()
+            else:
+                self.set_light_off()
+            ###################################
+            
 
 
 if __name__ == "__main__":
